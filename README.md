@@ -30,7 +30,9 @@ A post is a json object with the following structure
 
 ## Emails
 Send emails to http://this-blog-server.com:8049/email
-    posts.POST("/email, sendEmail) // number of posts
+
+    posts.POST("/email, sendEmail) // sends an email
+    
 This uses mailgun to send an email. You are required to provide a function to convert the post request to an email
 
 ## Setup
