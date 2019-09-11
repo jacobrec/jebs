@@ -47,3 +47,44 @@ password
 database
 ```
 This file needs to be placed in the directory of which you run the program from
+
+
+
+## How to run
+
+```
+package main
+
+import (
+	"fmt"
+	"github.com/gin-gonic/gin"
+	"github.com/jacobrec/jebs"
+)
+
+func makeEmailFunction(c *gin.Context) (string, string, string, string) {
+	var req EmailRequest
+	c.BindJSON(&req)
+	fmt.Println(req.toString())
+
+	sender := "Sender Name Here <mailgun@mg.example.ca>"
+	subject := "Hello, you have 1 new join request"
+	body := req.toString()
+	recipient := "SPEAR <spear@email.ca>"
+    return sender, subject, body, recipient
+}
+
+type EmailRequest struct {
+	Email    string
+	Name     string
+	Msg      string
+}
+
+func (e EmailRequest) toString() string {
+	return "A new member wishes to join spear. Their name is [" + e.Name + "], their email is [" + e.Email + "].\n" + "Their message for you is:\n\n" + e.Msg + "\n"
+}
+
+
+func main() {
+    jebs.start_server(makeEmailFunction)
+}
+```
