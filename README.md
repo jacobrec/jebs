@@ -28,29 +28,23 @@ A post is a json object with the following structure
         Tags      []string `json:"tags"`
     }
 
+## Emails
+Send emails to http://this-blog-server.com:8049/email
+    posts.POST("/email, sendEmail) // number of posts
+This uses mailgun to send an email. You are required to provide a function to convert the post request to an email
+
 ## Setup
 1. Install go
 2. Get files with `go get github.com/jacobrec/jebs`
 3. Install mysql server
 4. In mysql create a database and a user and grant that user all privaliges on that database
-1. Place .passwords file in the src/github.com/jacobrec/spearserver directory
-5. From the src/github.com/jacobrec/spearserver directory build the project with `go build`
+1. Make the required files described below
 2. run with -setup from the src/github.com/jacobrec/spearserver directory
 3. run normally from the src/github.com/jacobrec/spearserver directory to start webserver
 
-### Passwords file
-should have the name .passwords
-file should be 3 lines and read like this. the username, password, and database refer to the sql database and user you just created
-```
-username
-password
-database
-```
-This file needs to be placed in the directory of which you run the program from
 
 
-
-## How to run
+## Required Files
 
 ```
 package main
@@ -95,4 +89,14 @@ export MG_DOMAIN='mg.example.com'
 export MG_KEY='MAILGUN-KEY-GOES-HERE'
 export PORT='8049'
 export GIN_MODE='release'
+export DB_USER='user'
+export DB_PASSWORD='password'
+export DB_DATABASE='database'
+```
+
+Run With:
+```
+go build
+source config.env
+./foldername # this part can be run like ./foldername -setup # for the first run
 ```
