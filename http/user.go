@@ -5,7 +5,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jacobrec/spearserver/sql"
+	"github.com/jacobrec/jebs/sql"
 )
 
 func getPosts(c *gin.Context) {

@@ -30,7 +30,7 @@ A post is a json object with the following structure
 
 ## Setup
 1. Install go
-2. Get files with `go get github.com/jacobrec/spearserver`
+2. Get files with `go get github.com/jacobrec/jebs`
 3. Install mysql server
 4. In mysql create a database and a user and grant that user all privaliges on that database
 1. Place .passwords file in the src/github.com/jacobrec/spearserver directory

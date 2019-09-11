@@ -1,14 +1,15 @@
-package spearserver
+package jebs
 
 import (
 	"fmt"
-	"github.com/jacobrec/spearserver/blog"
-	"github.com/jacobrec/spearserver/http"
-	"github.com/jacobrec/spearserver/sql"
+	"github.com/jacobrec/jebs/blog"
+	"github.com/jacobrec/jebs/http"
+	"github.com/jacobrec/jebs/sql"
+	"github.com/gin-gonic/gin"
 	"os"
 )
 
-func start_server(email func(c *gin.Context) (string, string, string, string)) {
+func StartServer(email func(c *gin.Context) (string, string, string, string)) {
 	fmt.Println("Starting")
 
 	args := os.Args[1:]

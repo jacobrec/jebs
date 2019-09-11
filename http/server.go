@@ -25,7 +25,7 @@ func Begin(port string, email func(c *gin.Context) (string, string, string, stri
 
     if email != nil {
         // See http/email.go for email sending stuff
-        router.POST("/email", sendEmailFromPost)
+        router.POST("/email", sendEmailFromPost(email))
     }
 
 	writer := router.Group("/author")

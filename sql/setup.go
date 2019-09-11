@@ -1,7 +1,6 @@
 package sql
 
 import (
-	"bufio"
 	"database/sql"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql" // Needs the specific driver
@@ -32,25 +31,10 @@ func getPassword() string {
 	return password
 }
 func getData() {
-
-	if file, err := os.Open(".passwords"); err == nil {
-		defer file.Close()
-		scanner := bufio.NewScanner(file)
-
-		scanner.Scan()
-		username = scanner.Text()
-		scanner.Scan()
-		password = scanner.Text()
-		scanner.Scan()
-		database = scanner.Text()
-		hasGottenData = true
-		if err = scanner.Err(); err != nil {
-			log.Fatal(err)
-		}
-	} else {
-		log.Fatal(err)
-	}
-
+    username = os.Getenv("DB_USER")
+    password = os.Getenv("DB_PASSWORD")
+    database = os.Getenv("DB_DATABASE")
+    hasGottenData = true
 }
 
 /*CreateDatabase Creates a new sql database in proper format*/

@@ -6,7 +6,7 @@ import (
 	"log"
 
 	_ "github.com/go-sql-driver/mysql" // needs the specific driver
-	"github.com/jacobrec/spearserver/blog"
+	"github.com/jacobrec/jebs/blog"
 )
 
 var db *sql.DB
