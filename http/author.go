@@ -7,6 +7,7 @@ import (
 	"github.com/jacobrec/jebs/blog"
 	"github.com/jacobrec/jebs/sql"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
 )
@@ -22,9 +23,7 @@ func authRequired() func(c *gin.Context) {
 
 			decoded := strings.Split(string(bytes), ":")
 
-			// TODO: probably should remove the username and password from the code and put it in a seperate file.
-			// it seems like a security issue to have them here when the source is publicly viewable
-			if "spear_admin" == decoded[0] && "admin_spear" == decoded[1] {
+			if os.Getenv("BLOG_USER") == decoded[0] && os.Getenv("BLOG_PASSWORD") == decoded[1] {
 				c.Next()
 				return
 			}
@@ -48,7 +47,7 @@ func putPost(c *gin.Context) {
 	fmt.Println(post.ID)
 	if post.ID == -1 {
 		sql.AddPost(post)
-	}else{
+	} else {
 		sql.EditPost(post)
 	}
 	fmt.Println(post)

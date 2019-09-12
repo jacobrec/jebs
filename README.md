@@ -32,7 +32,7 @@ A post is a json object with the following structure
 Send emails to http://this-blog-server.com:8049/email
 
     posts.POST("/email, sendEmail) // sends an email
-    
+
 This uses mailgun to send an email. You are required to provide a function to convert the post request to an email
 
 ## Setup
@@ -94,6 +94,8 @@ export GIN_MODE='release'
 export DB_USER='user'
 export DB_PASSWORD='password'
 export DB_DATABASE='database'
+export BLOG_USER='author'
+export BLOG_PASSWORD='author_password'
 ```
 
 Run With:

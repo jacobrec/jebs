@@ -31,10 +31,10 @@ func getPassword() string {
 	return password
 }
 func getData() {
-    username = os.Getenv("DB_USER")
-    password = os.Getenv("DB_PASSWORD")
-    database = os.Getenv("DB_DATABASE")
-    hasGottenData = true
+	username = os.Getenv("DB_USER")
+	password = os.Getenv("DB_PASSWORD")
+	database = os.Getenv("DB_DATABASE")
+	hasGottenData = true
 }
 
 /*CreateDatabase Creates a new sql database in proper format*/
@@ -92,7 +92,7 @@ func RemoveDatabase() {
 	} else {
 		fmt.Println("Opened sql")
 	}
-	_, err = db.Exec("DROP DATABASE spear")
+	_, err = db.Exec("DROP DATABASE " + getDatabase())
 	if err != nil {
 		panic(err)
 	} else {
