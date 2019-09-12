@@ -81,7 +81,7 @@ func (e EmailRequest) toString() string {
 
 
 func main() {
-    jebs.start_server(makeEmailFunction)
+    jebs.StartServer(makeEmailFunction)
 }
 ```
 

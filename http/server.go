@@ -41,13 +41,8 @@ func Begin(port string, email func(c *gin.Context) (string, string, string, stri
 
 	writer := router.Group("/author")
 	{
-		router.LoadHTMLFiles(getWritePath()+"/index.html", getWritePath()+"/posts.html")
+		router.LoadHTMLFiles(getWritePath()+"/index.html", getWritePath()+"/posts.html", getWritePath()+"/images.html")
 		loc := os.Getenv("LOCATION") + ":" + os.Getenv("PORT")
-		writer.GET("/index.html", func(c *gin.Context) {
-			c.HTML(http.StatusOK, "index.html", gin.H{
-				"location": loc,
-			})
-		})
 		writer.GET("/", func(c *gin.Context) {
 			c.HTML(http.StatusOK, "index.html", gin.H{
 				"location": loc,
@@ -55,6 +50,11 @@ func Begin(port string, email func(c *gin.Context) (string, string, string, stri
 		})
 		writer.GET("/posts.html", func(c *gin.Context) {
 			c.HTML(http.StatusOK, "posts.html", gin.H{
+				"location": loc,
+			})
+		})
+		writer.GET("/images.html", func(c *gin.Context) {
+			c.HTML(http.StatusOK, "images.html", gin.H{
 				"location": loc,
 			})
 		})

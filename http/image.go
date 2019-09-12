@@ -35,12 +35,6 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("k:", k, "    v:", v)
 	}
 
-	if len(splits) != 2 {
-		w.WriteHeader(400)
-		w.Write([]byte("400 - Bad Request"))
-		return
-	}
-
 	path := generatePath()
 	err = setImage(path, r.Body)
 	if err != nil {
