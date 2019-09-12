@@ -1,6 +1,7 @@
 package http
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 )
 
@@ -23,16 +24,18 @@ func Begin(port string, email func(c *gin.Context) (string, string, string, stri
 		posts.DELETE("/:id", deletePost)
 	}
 
-    if email != nil {
-        // See http/email.go for email sending stuff
-        router.POST("/email", sendEmailFromPost(email))
-    }
+	if email != nil {
+		// See http/email.go for email sending stuff
+		router.POST("/email", sendEmailFromPost(email))
+		fmt.Println("Using Email Server")
+	}
 
 	writer := router.Group("/author")
 	writer.Use(authRequired())
 	{
-		writer.Static("/", "writer/")
+		writer.Static("/", getWritePath())
 	}
+	fmt.Println("Serving Author out of: ", getWritePath())
 
 	router.Run(port)
 }
@@ -52,4 +55,3 @@ func CORSMiddleware() gin.HandlerFunc {
 		c.Next()
 	}
 }
-

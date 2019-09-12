@@ -8,6 +8,7 @@ import (
 	"github.com/jacobrec/jebs/sql"
 	"net/http"
 	"os"
+	"os/exec"
 	"strconv"
 	"strings"
 )
@@ -51,4 +52,11 @@ func putPost(c *gin.Context) {
 		sql.EditPost(post)
 	}
 	fmt.Println(post)
+}
+
+func getWritePath() string {
+	path := "/src/github.com/jacobrec/jebs/writer/"
+	out, _ := exec.Command("go", "env", "GOPATH").Output()
+	ans := strings.TrimSpace(string(out)) + path
+	return ans
 }
