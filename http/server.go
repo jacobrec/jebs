@@ -10,6 +10,7 @@ import (
 /*Begin starts the blog webserver on a specified port*/
 func Begin(port string, email func(c *gin.Context) (string, string, string, string)) {
 
+	os.Mkdir(STORAGE, os.ModeDir|0777)
 	router := gin.Default()
 	router.Use(CORSMiddleware())
 	posts := router.Group("/blog")
@@ -32,26 +33,32 @@ func Begin(port string, email func(c *gin.Context) (string, string, string, stri
 		fmt.Println("Using Email Server")
 	}
 
-	writer := router.Group("/author")
-	router.LoadHTMLFiles(getWritePath()+"/index.html", getWritePath()+"/posts.html")
-	loc := os.Getenv("LOCATION") + ":" + os.Getenv("PORT")
-	writer.GET("/index.html", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.html", gin.H{
-			"location": loc,
-		})
-	})
-	writer.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.html", gin.H{
-			"location": loc,
-		})
-	})
-	writer.GET("/posts.html", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "posts.html", gin.H{
-			"location": loc,
-		})
-	})
-	writer.Use(authRequired())
+	imgs := router.Group("/images")
 	{
+		imgs.GET(VIEW_ENDPOINT, viewHandler)
+		imgs.POST(HANDLE_ENDPOINT, ginify(uploadHandler))
+	}
+
+	writer := router.Group("/author")
+	{
+		router.LoadHTMLFiles(getWritePath()+"/index.html", getWritePath()+"/posts.html")
+		loc := os.Getenv("LOCATION") + ":" + os.Getenv("PORT")
+		writer.GET("/index.html", func(c *gin.Context) {
+			c.HTML(http.StatusOK, "index.html", gin.H{
+				"location": loc,
+			})
+		})
+		writer.GET("/", func(c *gin.Context) {
+			c.HTML(http.StatusOK, "index.html", gin.H{
+				"location": loc,
+			})
+		})
+		writer.GET("/posts.html", func(c *gin.Context) {
+			c.HTML(http.StatusOK, "posts.html", gin.H{
+				"location": loc,
+			})
+		})
+		writer.Use(authRequired())
 		writer.Static("/static", getWritePath())
 	}
 	fmt.Println("Serving Author out of: ", getWritePath())
