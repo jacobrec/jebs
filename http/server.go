@@ -3,6 +3,8 @@ package http
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"net/http"
+	"os"
 )
 
 /*Begin starts the blog webserver on a specified port*/
@@ -31,9 +33,26 @@ func Begin(port string, email func(c *gin.Context) (string, string, string, stri
 	}
 
 	writer := router.Group("/author")
+	router.LoadHTMLFiles(getWritePath()+"/index.html", getWritePath()+"/posts.html")
+	loc := os.Getenv("LOCATION") + ":" + os.Getenv("PORT")
+	writer.GET("/index.html", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "index.html", gin.H{
+			"location": loc,
+		})
+	})
+	writer.GET("/", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "index.html", gin.H{
+			"location": loc,
+		})
+	})
+	writer.GET("/posts.html", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "posts.html", gin.H{
+			"location": loc,
+		})
+	})
 	writer.Use(authRequired())
 	{
-		writer.Static("/", getWritePath())
+		writer.Static("/static", getWritePath())
 	}
 	fmt.Println("Serving Author out of: ", getWritePath())
 

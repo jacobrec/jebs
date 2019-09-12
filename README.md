@@ -89,6 +89,7 @@ Config File:
 ```
 export MG_DOMAIN='mg.example.com'
 export MG_KEY='MAILGUN-KEY-GOES-HERE'
+export LOCATION='localhost'
 export PORT='8049'
 export GIN_MODE='release'
 export DB_USER='user'

@@ -1,4 +1,3 @@
-var url = "http://localhost:8049"
 var postList = [];
 
 function getPosts() {

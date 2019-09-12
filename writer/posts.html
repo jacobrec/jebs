@@ -2,8 +2,9 @@
 <html>
 
         <head>
-                <link rel="stylesheet" href="main.css">
-                <script src="posts.js"></script>
+                <link rel="stylesheet" href="static/main.css">
+                <script> var url = "http://" + {{ .location }} </script>
+                <script src="static/posts.js"></script>
 
         </head>
 
@@ -14,7 +15,7 @@
                         </div>
                 </div>
                 <footer>
-                        <input type="button" value="Create Posts" onclick="document.location.href='index.html'" />
+                        <input type="button" value="Create Posts" onclick="document.location.href='/'" />
                 </footer>
         </body>
 </html>
