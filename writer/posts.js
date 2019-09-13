@@ -76,7 +76,7 @@ function editPost(index) {
     localStorage.setItem("editpost", JSON.stringify(item.jsonPost))
     console.log(JSON.stringify(item.jsonPost));
     console.log(String(item.jsonPost.post));
-    document.location.href='index.html'
+    document.location.href='/';
 }
 
 function deletePost(index) {
