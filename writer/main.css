@@ -23,6 +23,13 @@ body {
     position: relative;
 }
 
+h1 {
+    margin: 30px;
+}
+h2 {
+    margin: 20px;
+}
+
 #body {
     background-color: #eee;
     margin-bottom: calc(15px + var(--footer-height));
@@ -91,19 +98,25 @@ footer input[type="button"]:hover {
     background: #ccc;
 }
 
+/* Blog Preview Stuff */
 .blogPostPreview {
     display: flex;
     flex-flow: column nowrap;
     margin: 10px;
     background: #ddd;
     border: 1px solid black;
+    padding: 20px;
 }
 
 .blogPostPreviewTitle {}
 
-.blogPostPreviewAuthor {}
+.blogPostPreviewAuthor {
+    padding-bottom: 10px;
+}
 
-.blogPostPreviewTimestamp {}
+.blogPostPreviewTimestamp {
+    padding-bottom: 20px;
+}
 
 .blogPostPreviewButtonBar {
     display: flex;
@@ -111,6 +124,11 @@ footer input[type="button"]:hover {
     justify-content: space-around;
 }
 
+.blogPostPreviewButtonBar button {
+    padding: 8px;
+}
+
+/* Image grid stuff */
 #imageHolder {
     display: flex;
     flex-wrap: wrap;
