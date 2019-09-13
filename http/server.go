@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"os"
+	"strings"
 )
 
 /*Begin starts the blog webserver on a specified port*/
@@ -36,7 +37,8 @@ func Begin(port string, email func(c *gin.Context) (string, string, string, stri
 	imgs := router.Group("/images")
 	{
 		imgs.GET(VIEW_ENDPOINT, viewHandler)
-		imgs.POST(HANDLE_ENDPOINT, ginify(uploadHandler))
+		imgs.POST(HANDLE_ENDPOINT, uploadHandler)
+		imgs.DELETE(DELETE_ENDPOINT, deleteHandler)
 	}
 
 	writer := router.Group("/author")
@@ -56,6 +58,7 @@ func Begin(port string, email func(c *gin.Context) (string, string, string, stri
 		writer.GET("/images.html", func(c *gin.Context) {
 			c.HTML(http.StatusOK, "images.html", gin.H{
 				"location": loc,
+				"files":    "[\"" + strings.Join(listFiles(), "\", \"") + "\"]",
 			})
 		})
 		writer.Use(authRequired())
@@ -69,9 +72,10 @@ func Begin(port string, email func(c *gin.Context) (string, string, string, stri
 func CORSMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		c.Writer.Header().Set("Cache-Control", "no-cache")
 		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
 		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
-		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT, DELETE")
 
 		if c.Request.Method == "OPTIONS" {
 			c.AbortWithStatus(204)

@@ -3,10 +3,12 @@ package http
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/jacobrec/jebs/utils"
 	"io"
+	"io/ioutil"
 	"math/rand"
-	"net/http"
 	"os"
+	"sort"
 	"strings"
 )
 
@@ -15,35 +17,59 @@ var (
 )
 
 const VIEW_ENDPOINT = "/view/*id"
+const DELETE_ENDPOINT = "/delete/*id"
 const HANDLE_ENDPOINT = "/upload"
 
-func main() {
-}
+func listFiles() []string {
+	// get all files
+	files, _ := ioutil.ReadDir(STORAGE)
 
-func ginify(fn func(http.ResponseWriter, *http.Request)) func(*gin.Context) {
-	return func(c *gin.Context) {
-		fn(c.Writer, c.Request)
-	}
-}
+	// sort by last modified date, newest first
+	sort.Slice(files, func(i, j int) bool {
+		return files[i].ModTime().After(files[j].ModTime())
+	})
 
-func uploadHandler(w http.ResponseWriter, r *http.Request) {
-	var err error
-	fmt.Println(r.PostFormValue("filedata"))
-	r.ParseForm()
-	fmt.Println("Form: ", r.Form)
-	for k, v := range r.Form {
-		fmt.Println("k:", k, "    v:", v)
+	// get names
+	s := make([]string, len(files))
+	for i, f := range files {
+		s[i] = f.Name()
 	}
 
-	path := generatePath()
-	err = setImage(path, r.Body)
+	return s
+}
+
+func uploadHandler(c *gin.Context) {
+
+	fileHead, err := c.FormFile("filedata")
 	if err != nil {
-		w.WriteHeader(400)
-		w.Write([]byte("400 - Bad Request"))
+		c.AbortWithStatus(400)
 		return
 	}
 
-	w.Write([]byte(path))
+	file, err := fileHead.Open()
+	if err != nil {
+		c.AbortWithStatus(400)
+		return
+	}
+
+	path := generatePath()
+
+	// Get file type
+	mime := utils.GuessImageMimeTypes(file)
+	ms := strings.Split(mime, "/")
+	if len(ms) != 2 {
+		c.AbortWithStatus(400)
+		return
+	}
+	path += "." + ms[1]
+
+	// Save file to disk
+	file.Seek(0, 0)
+	err = setImage(path, file)
+
+	// return file name
+	msg := "Upload Sucessful \n" + path + "\nPlease hit back to return to previous page, then refresh the page"
+	c.Writer.Write([]byte(msg))
 	fmt.Println("Uploaded Image: " + path)
 }
 
@@ -65,6 +91,11 @@ func viewHandler(c *gin.Context) {
 		c.AbortWithStatus(404)
 		return
 	}
+}
+
+func deleteHandler(c *gin.Context) {
+	image_path := STORAGE + c.Param("id")
+	os.Remove(image_path)
 }
 
 func preprocessImage(img io.ReadCloser) error {

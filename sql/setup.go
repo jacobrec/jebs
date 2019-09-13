@@ -34,7 +34,6 @@ func getData() {
 	username = os.Getenv("DB_USER")
 	password = os.Getenv("DB_PASSWORD")
 	database = os.Getenv("DB_DATABASE")
-	fmt.Println(username, password, database)
 	hasGottenData = true
 }
 

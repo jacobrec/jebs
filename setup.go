@@ -2,15 +2,18 @@ package jebs
 
 import (
 	"fmt"
+	"github.com/gin-gonic/gin"
 	"github.com/jacobrec/jebs/blog"
 	"github.com/jacobrec/jebs/http"
 	"github.com/jacobrec/jebs/sql"
-	"github.com/gin-gonic/gin"
+	"math/rand"
 	"os"
+	"time"
 )
 
 func StartServer(email func(c *gin.Context) (string, string, string, string)) {
 	fmt.Println("Starting")
+	rand.Seed(time.Now().UTC().UnixNano())
 
 	args := os.Args[1:]
 	if len(args) > 0 {
@@ -31,10 +34,10 @@ func StartServer(email func(c *gin.Context) (string, string, string, string)) {
 		}
 	} else {
 		sql.OpenDatabase()
-        p := os.Getenv("PORT")
-        if p != "" {
-            http.Begin(":"+p, email)
-        }
+		p := os.Getenv("PORT")
+		if p != "" {
+			http.Begin(":"+p, email)
+		}
 		http.Begin(":8049", email)
 	}
 }

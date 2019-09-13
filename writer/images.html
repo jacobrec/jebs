@@ -4,6 +4,7 @@
         <head>
                 <link rel="stylesheet" href="static/main.css">
                 <script> var url = "http://" + {{ .location }} </script>
+                <script> var files = {{ .files }} </script>
                 <script src="static/images.js"></script>
 
         </head>
@@ -11,6 +12,10 @@
         <body>
                 <div id="body">
                         <h1>All Images</h1>
+                        <form id="uploadbanner" enctype="multipart/form-data" method="post" action="http://localhost:8049/images/upload">
+                            <input id="fileupload" name="filedata" type="file" />
+                            <input type="submit" value="submit" id="submit" />
+                        </form>
                         <div id="imageHolder">
                         </div>
                 </div>
@@ -19,4 +24,7 @@
                         <input type="button" value="Manage Posts" onclick="document.location.href='posts.html'"/>
                 </footer>
         </body>
+        <script>
+            loadImages()
+        </script>
 </html>
