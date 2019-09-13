@@ -1,4 +1,8 @@
+# Jebs
+Jacob's Email and Blog Server. For simple websites that just need an email and blog
+
 ## API
+### Blog posts
     all of these are prepended by blog
     posts.GET("/post/:id", getPost) // this gets the post by the actual ID
     posts.GET("/search/tag/:id", getByTag)
@@ -28,12 +32,22 @@ A post is a json object with the following structure
         Tags      []string `json:"tags"`
     }
 
-## Emails
+### Emails
 Send emails to http://this-blog-server.com:8049/email
 
     posts.POST("/email, sendEmail) // sends an email
 
-This uses mailgun to send an email. You are required to provide a function to convert the post request to an email
+This uses mailgun to send an email. You are required to provide a function to convert the post request to an email, as well as setup the key and domain in the config file.
+
+### Images
+This is meant to be a simple image hosting service to use with the blog. The blog only can accept images in the form of URL's, so this allows the user to upload images, and get a URL.
+
+    imgs.GET("/image/view/*", viewHandler) // Returns the image
+    imgs.POST("/image/upload", uploadHandler) // Uploads the image
+    imgs.DELETE("/image/delete/*", deleteHandler) // Deletes the image
+
+The api is not meant to be used directly, and should likely be used with the default editor it comes with
+
 
 ## Setup
 1. Install go
