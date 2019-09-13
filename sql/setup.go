@@ -39,6 +39,7 @@ func getData() {
 
 /*CreateDatabase Creates a new sql database in proper format*/
 func CreateDatabase() {
+	fmt.Println(getUser() + ":" + getPassword() + "@/")
 	db, err := sql.Open("mysql",
 		getUser()+":"+getPassword()+"@/")
 

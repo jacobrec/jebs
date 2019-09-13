@@ -110,3 +110,26 @@ footer input[type="button"]:hover {
     flex-flow: row nowrap;
     justify-content: space-around;
 }
+
+#imageHolder {
+    display: flex;
+    flex-wrap: wrap;
+}
+#imageHolder .image {
+    padding: 10px;
+    margin: 10px;
+    background-color: white;
+    border: 1px solid black;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+#imageHolder .image .link {
+    font-size: 0.75em;
+}
+#imageHolder .image img {
+    max-width: 100px;
+    height: auto;
+}
